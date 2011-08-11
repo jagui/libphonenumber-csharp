@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{775A5AF2-FB45-4CE5-88D0-B1BE8AD56459}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PhoneNumbers</RootNamespace>
+    <AssemblyName>PhoneNumbers</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AreaCodeMap.cs" />
+    <Compile Include="AreaCodeMapStorageStrategy.cs" />
+    <Compile Include="AreaCodeParser.cs" />
+    <Compile Include="AsYouTypeFormatter.cs" />
+    <Compile Include="CountryCodeToRegionCodeMap.cs" />
+    <Compile Include="DefaultMapStorage.cs" />
+    <Compile Include="FlyweightMapStorage.cs" />
+    <Compile Include="MappingFileProvider.cs" />
+    <Compile Include="NumberParseException.cs" />
+    <Compile Include="Phonemetadata.cs" />
+    <Compile Include="Phonenumber.cs" />
+    <Compile Include="PhoneNumberMatch.cs" />
+    <Compile Include="PhoneNumberMatcher.cs" />
+    <Compile Include="PhoneNumberOfflineGeocoder.cs" />
+    <Compile Include="PhoneNumberUtil.cs" />
+    <Compile Include="PhoneRegex.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegexCache.cs" />
+    <Compile Include="Util.cs" />
+    <Compile Include="XmlParser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PhoneNumberMetaData.xml" />
+    <EmbeddedResource Include="PhoneNumberMetaDataForTesting.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="res\1_en" />
+    <EmbeddedResource Include="res\31_nl" />
+    <EmbeddedResource Include="res\34_es" />
+    <EmbeddedResource Include="res\43_de" />
+    <EmbeddedResource Include="res\46_sv" />
+    <EmbeddedResource Include="res\49_de" />
+    <EmbeddedResource Include="res\54_es" />
+    <EmbeddedResource Include="res\55_pt" />
+    <EmbeddedResource Include="res\56_es" />
+    <EmbeddedResource Include="res\82_en" />
+    <EmbeddedResource Include="res\82_ko" />
+    <EmbeddedResource Include="res\82_zh" />
+    <EmbeddedResource Include="res\82_zh_Hant" />
+    <EmbeddedResource Include="res\86_zh" />
+    <EmbeddedResource Include="res\test_1_en" />
+    <EmbeddedResource Include="res\test_82_en" />
+    <EmbeddedResource Include="res\test_82_ko" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="res\44_en" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="res\33_fr" />
+    <EmbeddedResource Include="res\351_pt" />
+    <EmbeddedResource Include="res\39_en" />
+    <EmbeddedResource Include="res\39_it" />
+    <EmbeddedResource Include="res\41_de" />
+    <EmbeddedResource Include="res\41_en" />
+    <EmbeddedResource Include="res\41_fr" />
+    <EmbeddedResource Include="res\41_it" />
+    <EmbeddedResource Include="res\7_en" />
+    <EmbeddedResource Include="res\81_ja" />
+    <EmbeddedResource Include="res\886_en" />
+    <EmbeddedResource Include="res\886_zh" />
+    <EmbeddedResource Include="res\886_zh_Hant" />
+    <EmbeddedResource Include="res\90_en" />
+    <EmbeddedResource Include="res\90_tr" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="res\213_en" />
+    <EmbeddedResource Include="res\216_en" />
+    <EmbeddedResource Include="res\221_en" />
+    <EmbeddedResource Include="res\224_en" />
+    <EmbeddedResource Include="res\225_en" />
+    <EmbeddedResource Include="res\226_en" />
+    <EmbeddedResource Include="res\229_en" />
+    <EmbeddedResource Include="res\233_en" />
+    <EmbeddedResource Include="res\261_en" />
+    <EmbeddedResource Include="res\264_en" />
+    <EmbeddedResource Include="res\266_en" />
+    <EmbeddedResource Include="res\267_en" />
+    <EmbeddedResource Include="res\268_en" />
+    <EmbeddedResource Include="res\354_en" />
+    <EmbeddedResource Include="res\355_en" />
+    <EmbeddedResource Include="res\370_en" />
+    <EmbeddedResource Include="res\371_en" />
+    <EmbeddedResource Include="res\372_en" />
+    <EmbeddedResource Include="res\420_en" />
+    <EmbeddedResource Include="res\421_en" />
+    <EmbeddedResource Include="res\48_pl" />
+    <EmbeddedResource Include="res\51_en" />
+    <EmbeddedResource Include="res\84_en" />
+    <EmbeddedResource Include="res\84_vi" />
+    <EmbeddedResource Include="res\94_en" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
