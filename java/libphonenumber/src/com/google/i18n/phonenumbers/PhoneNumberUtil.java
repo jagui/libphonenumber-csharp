@@ -268,7 +268,7 @@ public class PhoneNumberUtil {
   // plus_sign*(([punctuation]|[star])*[digits]){3,}([punctuation]|[star]|[digits]|[alpha])*
   // Note VALID_PUNCTUATION starts with a -, so must be the first in the range.
   private static final String VALID_PHONE_NUMBER =
-      "[" + PLUS_CHARS + "]*+(?:[" + VALID_PUNCTUATION + STAR_SIGN + "]*" + DIGITS + "){3,}[" +
+      "[" + PLUS_CHARS + "]*(?:[" + VALID_PUNCTUATION + STAR_SIGN + "]*" + DIGITS + "){3,}[" +
       VALID_PUNCTUATION + STAR_SIGN + VALID_ALPHA + DIGITS + "]*";
 
   // Default extension prefix to use when formatting. This will be put in front of any extension
@@ -2414,7 +2414,7 @@ public class PhoneNumberUtil {
       int numOfGroups = prefixMatcher.groupCount();
       String transformRule = metadata.getNationalPrefixTransformRule();
       if (transformRule == null || transformRule.length() == 0 ||
-          prefixMatcher.group(numOfGroups) == null) {
+          prefixMatcher.group(numOfGroups - 1) == null) {
         // If the original number was viable, and the resultant number is not, we return.
         if (isViableOriginalNumber &&
             !nationalNumberRule.matcher(number.substring(prefixMatcher.end())).matches()) {
