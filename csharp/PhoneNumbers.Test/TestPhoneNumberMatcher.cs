@@ -15,6 +15,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
@@ -22,7 +23,7 @@ using NUnit.Framework;
 namespace PhoneNumbers.Test
 {
     [TestFixture]
-    class TestPhoneNumberMatcher: TestMetadataTestCase
+    class TestPhoneNumberMatcher : TestMetadataTestCase
     {
         /** See {@link PhoneNumberUtilTest#testParseNationalNumber()}. */
         [Test]
@@ -579,14 +580,14 @@ namespace PhoneNumbers.Test
                 if (match == null)
                 {
                     noMatchFoundCount++;
-                    Console.WriteLine("No match found in " + test.ToString() + " for leniency: " + leniency);
+                    Debug.WriteLine("No match found in " + test.ToString() + " for leniency: " + leniency);
                 }
                 else
                 {
                     if (!test.rawString.Equals(match.RawString))
                     {
                         wrongMatchFoundCount++;
-                        Console.WriteLine("Found wrong match in test " + test.ToString() +
+                        Debug.WriteLine("Found wrong match in test " + test.ToString() +
                                           ". Found " + match.RawString);
                     }
                 }
@@ -607,7 +608,7 @@ namespace PhoneNumbers.Test
                 if (match != null)
                 {
                     matchFoundCount++;
-                    Console.WriteLine("Match found in " + test.ToString() + " for leniency: " + leniency);
+                    Debug.WriteLine("Match found in " + test.ToString() + " for leniency: " + leniency);
                 }
             }
             Assert.AreEqual(0, matchFoundCount);
@@ -800,7 +801,7 @@ namespace PhoneNumbers.Test
             // Does not start with a "+", we won't match it.
             var iterable = phoneUtil.FindNumbers("1 456 764 156", RegionCode.ZZ);
             var iterator = iterable.GetEnumerator();
-            
+
             Assert.IsFalse(iterator.MoveNext());
             Assert.IsFalse(iterator.MoveNext());
         }

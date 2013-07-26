@@ -16,6 +16,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -44,22 +45,22 @@ namespace PhoneNumbers
 
         public String GetDisplayCountry(String language)
         {
-            if(String.IsNullOrEmpty(Country))
+            if (String.IsNullOrEmpty(Country))
                 return "";
             var name = GetCountryName(Country, language);
-            if(name != null)
+            if (name != null)
                 return name;
-            var lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
-            if(lang != language)
+            var lang = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            if (lang != language)
             {
                 name = GetCountryName(Country, lang);
-                if(name != null)
+                if (name != null)
                     return name;
             }
-            if(language != "en" && lang != "en")
+            if (language != "en" && lang != "en")
             {
                 name = GetCountryName(Country, "en");
-                if(name != null)
+                if (name != null)
                     return name;
             }
             name = GetCountryName(Country, Language);
@@ -70,9 +71,9 @@ namespace PhoneNumbers
         {
             var names = LocaleData.Data[Country];
             String name;
-            if(!names.TryGetValue(language, out name))
+            if (!names.TryGetValue(language, out name))
                 return null;
-            if(name.Length > 0 && name[0] == '*')
+            if (name.Length > 0 && name[0] == '*')
                 return names[name.Substring(1)];
             return name;
         }
@@ -109,7 +110,7 @@ namespace PhoneNumbers
         private void LoadMappingFileProvider()
         {
             var files = new SortedDictionary<int, HashSet<String>>();
-            var asm = Assembly.GetExecutingAssembly();
+            var asm = Redirections.GetAssembly();
             var allNames = asm.GetManifestResourceNames();
             var prefix = asm.GetName().Name + "." + phonePrefixDataDirectory;
             var names = allNames.Where(n => n.StartsWith(prefix));
@@ -122,7 +123,7 @@ namespace PhoneNumbers
                 {
                     country = int.Parse(name.Substring(0, pos));
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                     throw new Exception("Failed to parse geocoding file name: " + name);
                 }
@@ -153,7 +154,7 @@ namespace PhoneNumbers
 
         private void LoadAreaCodeMapFromFile(String fileName)
         {
-            var asm = Assembly.GetExecutingAssembly();
+            var asm = Redirections.GetAssembly();
             var prefix = asm.GetName().Name + "." + phonePrefixDataDirectory;
             var resName = prefix + fileName;
             using (var fp = asm.GetManifestResourceStream(resName))

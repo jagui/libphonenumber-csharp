@@ -17,6 +17,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,10 +71,12 @@
     <Compile Include="PhoneRegex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexCache.cs" />
+    <Compile Include="Redirections.cs" />
     <Compile Include="RegionCode.cs" />
     <Compile Include="ShortNumberUtil.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="BuildMetadataFromXml.cs" />
+    <Compile Include="XElementExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="PhoneNumberMetaData.xml" />

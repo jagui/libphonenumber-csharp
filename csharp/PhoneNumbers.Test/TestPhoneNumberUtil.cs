@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
 using System.Text;
-using System.Web;
 using NUnit.Framework;
 
 namespace PhoneNumbers.Test
