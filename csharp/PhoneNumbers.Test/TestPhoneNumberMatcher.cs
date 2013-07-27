@@ -18,15 +18,30 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+#if  WINDOWS_PHONE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif 
+#endif
+
 
 namespace PhoneNumbers.Test
 {
-    [TestFixture]
-    class TestPhoneNumberMatcher : TestMetadataTestCase
+    [TestClass]
+    public class TestPhoneNumberMatcher : TestMetadataTestCase
     {
+        [ClassInitialize]
+        public static void SetupFixture(TestContext context)
+        {
+            TestMetadataTestCase.SetupFixtureBase(context);
+        }
+
         /** See {@link PhoneNumberUtilTest#testParseNationalNumber()}. */
-        [Test]
+        [TestMethod]
         public void TestFindNationalNumber()
         {
             // same cases as in testParseNationalNumber
@@ -51,7 +66,7 @@ namespace PhoneNumbers.Test
         }
 
         /** See {@link PhoneNumberUtilTest#testParseWithInternationalPrefixes()}. */
-        [Test]
+        [TestMethod]
         public void TestFindWithInternationalPrefixes()
         {
             doTestFindInContext("+1 (650) 333-6000", "NZ");
@@ -76,7 +91,7 @@ namespace PhoneNumbers.Test
         }
 
         /** See {@link PhoneNumberUtilTest#testParseWithLeadingZero()}. */
-        [Test]
+        [TestMethod]
         public void TestFindWithLeadingZero()
         {
             doTestFindInContext("+39 02-36618 300", "NZ");
@@ -85,7 +100,7 @@ namespace PhoneNumbers.Test
         }
 
         /** See {@link PhoneNumberUtilTest#testParseNationalNumberArgentina()}. */
-        [Test]
+        [TestMethod]
         public void TestFindNationalNumberArgentina()
         {
             // Test parsing mobile numbers of Argentina.
@@ -107,7 +122,7 @@ namespace PhoneNumbers.Test
         }
 
         /** See {@link PhoneNumberUtilTest#testParseWithXInNumber()}. */
-        [Test]
+        [TestMethod]
         public void TestFindWithXInNumber()
         {
             doTestFindInContext("(0xx) 123456789", "AR");
@@ -122,7 +137,7 @@ namespace PhoneNumbers.Test
         }
 
         /** See {@link PhoneNumberUtilTest#testParseNumbersMexico()}. */
-        [Test]
+        [TestMethod]
         public void TestFindNumbersMexico()
         {
             // Test parsing fixed-line numbers of Mexico.
@@ -137,7 +152,7 @@ namespace PhoneNumbers.Test
         }
 
         /** See {@link PhoneNumberUtilTest#testParseNumbersWithPlusWithNoRegion()}. */
-        [Test]
+        [TestMethod]
         public void TestFindNumbersWithPlusWithNoRegion()
         {
             // "ZZ" is allowed only if the number starts with a '+' - then the country code can be
@@ -148,7 +163,7 @@ namespace PhoneNumbers.Test
         }
 
         /** See {@link PhoneNumberUtilTest#testParseExtensions()}. */
-        [Test]
+        [TestMethod]
         public void TestFindExtensions()
         {
             doTestFindInContext("03 331 6005 ext 3456", "NZ");
@@ -178,7 +193,7 @@ namespace PhoneNumbers.Test
             doTestFindInContext("(800) 901-3355 ext: 7246433", "US");
         }
 
-        [Test]
+        [TestMethod]
         public void TestFindInterspersedWithSpace()
         {
             doTestFindInContext("0 3   3 3 1   6 0 0 5", "NZ");
@@ -187,7 +202,7 @@ namespace PhoneNumbers.Test
         /**
         * Test matching behavior when starting in the middle of a phone number.
         */
-        [Test]
+        [TestMethod]
         public void TestIntermediateParsePositions()
         {
             String text = "Call 033316005  or 032316005!";
@@ -205,7 +220,7 @@ namespace PhoneNumbers.Test
                 AssertEqualRange(text, i, 19, 28);
         }
 
-        [Test]
+        [TestMethod]
         public void TestMatchWithSurroundingZipcodes()
         {
             String number = "415-666-7777";
@@ -230,24 +245,24 @@ namespace PhoneNumbers.Test
             Assert.AreEqual(number, matchWithSpaces.RawString);
         }
 
-        [Test]
+        [TestMethod]
         public void TestIsLatinLetter()
         {
-            Assert.That(PhoneNumberMatcher.IsLatinLetter('c'));
-            Assert.That(PhoneNumberMatcher.IsLatinLetter('C'));
-            Assert.That(PhoneNumberMatcher.IsLatinLetter('\u00C9'));
-            Assert.That(PhoneNumberMatcher.IsLatinLetter('\u0301'));  // Combining acute accent
+            Assert.IsTrue(PhoneNumberMatcher.IsLatinLetter('c'));
+            Assert.IsTrue(PhoneNumberMatcher.IsLatinLetter('C'));
+            Assert.IsTrue(PhoneNumberMatcher.IsLatinLetter('\u00C9'));
+            Assert.IsTrue(PhoneNumberMatcher.IsLatinLetter('\u0301'));  // Combining acute accent
             // Punctuation, digits and white-space are not considered "latin letters".
-            Assert.False(PhoneNumberMatcher.IsLatinLetter(':'));
-            Assert.False(PhoneNumberMatcher.IsLatinLetter('5'));
-            Assert.False(PhoneNumberMatcher.IsLatinLetter('-'));
-            Assert.False(PhoneNumberMatcher.IsLatinLetter('.'));
-            Assert.False(PhoneNumberMatcher.IsLatinLetter(' '));
-            Assert.False(PhoneNumberMatcher.IsLatinLetter('\u6211'));  // Chinese character
-            Assert.False(PhoneNumberMatcher.IsLatinLetter('\u306E'));  // Hiragana letter no
+            Assert.IsFalse(PhoneNumberMatcher.IsLatinLetter(':'));
+            Assert.IsFalse(PhoneNumberMatcher.IsLatinLetter('5'));
+            Assert.IsFalse(PhoneNumberMatcher.IsLatinLetter('-'));
+            Assert.IsFalse(PhoneNumberMatcher.IsLatinLetter('.'));
+            Assert.IsFalse(PhoneNumberMatcher.IsLatinLetter(' '));
+            Assert.IsFalse(PhoneNumberMatcher.IsLatinLetter('\u6211'));  // Chinese character
+            Assert.IsFalse(PhoneNumberMatcher.IsLatinLetter('\u306E'));  // Hiragana letter no
         }
 
-        [Test]
+        [TestMethod]
         public void TestMatchesWithSurroundingLatinChars()
         {
             List<NumberContext> possibleOnlyContexts = new List<NumberContext>(5);
@@ -264,7 +279,7 @@ namespace PhoneNumbers.Test
             FindMatchesInContexts(possibleOnlyContexts, false, true);
         }
 
-        [Test]
+        [TestMethod]
         public void TestMoneyNotSeenAsPhoneNumber()
         {
             List<NumberContext> possibleOnlyContexts = new List<NumberContext>();
@@ -275,7 +290,7 @@ namespace PhoneNumbers.Test
             FindMatchesInContexts(possibleOnlyContexts, false, true);
         }
 
-        [Test]
+        [TestMethod]
         public void TestPercentageNotSeenAsPhoneNumber()
         {
             List<NumberContext> possibleOnlyContexts = new List<NumberContext>();
@@ -285,7 +300,7 @@ namespace PhoneNumbers.Test
         }
 
 
-        [Test]
+        [TestMethod]
         public void TestPhoneNumberWithLeadingOrTrailingMoneyMatches()
         {
             // Because of the space after the 20 (or before the 100) these dollar amounts should not stop
@@ -296,7 +311,7 @@ namespace PhoneNumbers.Test
             FindMatchesInContexts(contexts, true, true);
         }
 
-        [Test]
+        [TestMethod]
         public void TestMatchesWithSurroundingLatinCharsAndLeadingPunctuation()
         {
             // Contexts with trailing characters. Leading characters are okay here since the numbers we will
@@ -324,7 +339,7 @@ namespace PhoneNumbers.Test
             FindMatchesInContexts(validContexts, true, true, "US", numberWithBrackets);
         }
 
-        [Test]
+        [TestMethod]
         public void TestMatchesWithSurroundingChineseChars()
         {
             List<NumberContext> validContexts = new List<NumberContext>();
@@ -336,7 +351,7 @@ namespace PhoneNumbers.Test
             FindMatchesInContexts(validContexts, true, true);
         }
 
-        [Test]
+        [TestMethod]
         public void testMatchesWithSurroundingPunctuation()
         {
             List<NumberContext> validContexts = new List<NumberContext>();
@@ -349,7 +364,7 @@ namespace PhoneNumbers.Test
             FindMatchesInContexts(validContexts, true, true);
         }
 
-        [Test]
+        [TestMethod]
         public void TestMatchesMultiplePhoneNumbersSeparatedByPhoneNumberPunctuation()
         {
             String text = "Call 650-253-4561 -- 455-234-3451";
@@ -374,14 +389,14 @@ namespace PhoneNumbers.Test
             Assert.AreEqual(match2, matches.Current);
         }
 
-        [Test]
+        [TestMethod]
         public void testDoesNotMatchMultiplePhoneNumbersSeparatedWithNoWhiteSpace()
         {
             // No white-space found between numbers - neither is found.
             String text = "Call 650-253-4561--455-234-3451";
             String region = "US";
 
-            Assert.True(hasNoMatches(phoneUtil.FindNumbers(text, region)));
+            Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers(text, region)));
         }
 
         /**
@@ -491,7 +506,7 @@ namespace PhoneNumbers.Test
             new NumberTest("0 900-1 123 123", RegionCode.DE),
         };
 
-        [Test]
+        [TestMethod]
         public void TestMatchesWithPossibleLeniency()
         {
             List<NumberTest> testCases = new List<NumberTest>();
@@ -502,7 +517,7 @@ namespace PhoneNumbers.Test
             doTestNumberMatchesForLeniency(testCases, PhoneNumberUtil.Leniency.POSSIBLE);
         }
 
-        [Test]
+        [TestMethod]
         public void TestNonMatchesWithPossibleLeniency()
         {
             List<NumberTest> testCases = new List<NumberTest>();
@@ -510,7 +525,7 @@ namespace PhoneNumbers.Test
             doTestNumberNonMatchesForLeniency(testCases, PhoneNumberUtil.Leniency.POSSIBLE);
         }
 
-        [Test]
+        [TestMethod]
         public void TestMatchesWithValidLeniency()
         {
             List<NumberTest> testCases = new List<NumberTest>();
@@ -520,7 +535,7 @@ namespace PhoneNumbers.Test
             doTestNumberMatchesForLeniency(testCases, PhoneNumberUtil.Leniency.VALID);
         }
 
-        [Test]
+        [TestMethod]
         public void TestNonMatchesWithValidLeniency()
         {
             List<NumberTest> testCases = new List<NumberTest>();
@@ -529,7 +544,7 @@ namespace PhoneNumbers.Test
             doTestNumberNonMatchesForLeniency(testCases, PhoneNumberUtil.Leniency.VALID);
         }
 
-        [Test]
+        [TestMethod]
         public void TestMatchesWithStrictGroupingLeniency()
         {
             List<NumberTest> testCases = new List<NumberTest>();
@@ -538,7 +553,7 @@ namespace PhoneNumbers.Test
             doTestNumberMatchesForLeniency(testCases, PhoneNumberUtil.Leniency.STRICT_GROUPING);
         }
 
-        [Test]
+        [TestMethod]
         public void TestNonMatchesWithStrictGroupLeniency()
         {
             List<NumberTest> testCases = new List<NumberTest>();
@@ -548,7 +563,7 @@ namespace PhoneNumbers.Test
             doTestNumberNonMatchesForLeniency(testCases, PhoneNumberUtil.Leniency.STRICT_GROUPING);
         }
 
-        [Test]
+        [TestMethod]
         public void TestMatchesWithExactGroupingLeniency()
         {
             List<NumberTest> testCases = new List<NumberTest>();
@@ -556,7 +571,7 @@ namespace PhoneNumbers.Test
             doTestNumberMatchesForLeniency(testCases, PhoneNumberUtil.Leniency.EXACT_GROUPING);
         }
 
-        [Test]
+        [TestMethod]
         public void TestNonMatchesExactGroupLeniency()
         {
             List<NumberTest> testCases = new List<NumberTest>();
@@ -633,7 +648,7 @@ namespace PhoneNumbers.Test
                 foreach (NumberContext context in contexts)
                 {
                     String text = context.leadingText + number + context.trailingText;
-                    Assert.That(hasNoMatches(phoneUtil.FindNumbers(text, region)),
+                    Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers(text, region)),
                         "Should not have found a number in " + text);
                 }
             }
@@ -646,7 +661,7 @@ namespace PhoneNumbers.Test
                 foreach (NumberContext context in contexts)
                 {
                     String text = context.leadingText + number + context.trailingText;
-                    Assert.That(hasNoMatches(phoneUtil.FindNumbers(text, region, PhoneNumberUtil.Leniency.POSSIBLE,
+                    Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers(text, region, PhoneNumberUtil.Leniency.POSSIBLE,
                                                                   long.MaxValue)),
                                                                   "Should not have found a number in " + text);
                 }
@@ -665,50 +680,50 @@ namespace PhoneNumbers.Test
         }
 
 
-        [Test]
+        [TestMethod]
         public void TestNonMatchingBracketsAreInvalid()
         {
             // The digits up to the ", " form a valid US number, but it shouldn't be matched as one since
             // there was a non-matching bracket present.
-            Assert.That(hasNoMatches(phoneUtil.FindNumbers(
+            Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers(
             "80.585 [79.964, 81.191]", "US")));
 
             // The trailing "]" is thrown away before parsing, so the resultant number, while a valid US
             // number, does not have matching brackets.
-            Assert.That(hasNoMatches(phoneUtil.FindNumbers(
+            Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers(
             "80.585 [79.964]", "US")));
 
-            Assert.That(hasNoMatches(phoneUtil.FindNumbers(
+            Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers(
             "80.585 ((79.964)", "US")));
 
             // This case has too many sets of brackets to be valid.
-            Assert.That(hasNoMatches(phoneUtil.FindNumbers(
+            Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers(
             "(80).(585) (79).(9)64", "US")));
         }
 
-        [Test]
+        [TestMethod]
         public void TestNoMatchIfRegionIsNull()
         {
             // Fail on non-international prefix if region code is null.
-            Assert.That(hasNoMatches(phoneUtil.FindNumbers(
+            Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers(
                 "Random text body - number is 0331 6005, see you there", null)));
         }
 
-        [Test]
+        [TestMethod]
         public void TestNoMatchInEmptyString()
         {
-            Assert.That(hasNoMatches(phoneUtil.FindNumbers("", "US")));
-            Assert.That(hasNoMatches(phoneUtil.FindNumbers("  ", "US")));
+            Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers("", "US")));
+            Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers("  ", "US")));
         }
 
-        [Test]
+        [TestMethod]
         public void TestNoMatchIfNoNumber()
         {
-            Assert.That(hasNoMatches(phoneUtil.FindNumbers(
+            Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers(
                 "Random text body - number is foobar, see you there", "US")));
         }
 
-        [Test]
+        [TestMethod]
         public void TestSequences()
         {
             // Test multiple occurrences.
@@ -732,14 +747,14 @@ namespace PhoneNumbers.Test
             Assert.AreEqual(match2, matches.Current);
         }
 
-        [Test]
+        [TestMethod]
         public void TestNullInput()
         {
-            Assert.That(hasNoMatches(phoneUtil.FindNumbers(null, "US")));
-            Assert.That(hasNoMatches(phoneUtil.FindNumbers(null, null)));
+            Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers(null, "US")));
+            Assert.IsTrue(hasNoMatches(phoneUtil.FindNumbers(null, null)));
         }
 
-        [Test]
+        [TestMethod]
         public void TestMaxMatches()
         {
             // Set up text with 100 valid phone numbers.
@@ -757,10 +772,10 @@ namespace PhoneNumbers.Test
             List<PhoneNumber> actual = new List<PhoneNumber>(100);
             foreach (var match in iterable)
                 actual.Add(match.Number);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEquivalent(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void TestMaxMatchesInvalid()
         {
             // Set up text with 10 invalid phone numbers followed by 100 valid.
@@ -774,7 +789,7 @@ namespace PhoneNumbers.Test
             Assert.IsFalse(iterable.GetEnumerator().MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void TestMaxMatchesMixed()
         {
             // Set up text with 100 valid numbers inside an invalid number.
@@ -792,10 +807,10 @@ namespace PhoneNumbers.Test
             List<PhoneNumber> actual = new List<PhoneNumber>(100);
             foreach (var match in iterable)
                 actual.Add(match.Number);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEquivalent(expected, actual);
         }
 
-        [Test]
+        [TestMethod]
         public void TestNonPlusPrefixedNumbersNotFoundForInvalidRegion()
         {
             // Does not start with a "+", we won't match it.
@@ -807,7 +822,7 @@ namespace PhoneNumbers.Test
         }
 
 
-        [Test]
+        [TestMethod]
         public void TestEmptyIteration()
         {
             var iterable = phoneUtil.FindNumbers("", "ZZ");
@@ -817,7 +832,7 @@ namespace PhoneNumbers.Test
             Assert.IsFalse(iterator.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void TestSingleIteration()
         {
             var iterable = phoneUtil.FindNumbers("+14156667777", "ZZ");
@@ -825,13 +840,13 @@ namespace PhoneNumbers.Test
             // With hasNext() -> next().
             var iterator = iterable.GetEnumerator();
             // Double hasNext() to ensure it does not advance.
-            Assert.That(iterator.MoveNext());
+            Assert.IsTrue(iterator.MoveNext());
             Assert.IsNotNull(iterator.Current);
             Assert.IsFalse(iterator.MoveNext());
 
             // With next() only.
             iterator = iterable.GetEnumerator();
-            Assert.That(iterator.MoveNext());
+            Assert.IsTrue(iterator.MoveNext());
             Assert.IsFalse(iterator.MoveNext());
         }
 
@@ -844,7 +859,7 @@ namespace PhoneNumbers.Test
             String sub = text.Substring(index);
             var matches =
                 phoneUtil.FindNumbers(sub, "NZ", PhoneNumberUtil.Leniency.POSSIBLE, long.MaxValue).GetEnumerator();
-            Assert.That(matches.MoveNext());
+            Assert.IsTrue(matches.MoveNext());
             PhoneNumberMatch match = matches.Current;
             Assert.AreEqual(start - index, match.Start);
             Assert.AreEqual(end - start, match.Length);
@@ -935,7 +950,7 @@ namespace PhoneNumbers.Test
                 Assert.IsNotNull(match, "Did not find a number in '" + text + "'; expected '" + number + "'");
 
                 String extracted = text.Substring(match.Start, match.Length);
-                Assert.That(start == match.Start && length == match.Length,
+                Assert.IsTrue(start == match.Start && length == match.Length,
                     "Unexpected phone region in '" + text + "'; extracted '" + extracted + "'");
                 Assert.AreEqual(number, extracted);
                 Assert.AreEqual(match.RawString, extracted);

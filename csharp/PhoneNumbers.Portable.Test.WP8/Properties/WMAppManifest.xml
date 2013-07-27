@@ -2,7 +2,7 @@
 
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US"/>
-  <App xmlns="" ProductID="{fcad230c-2547-4878-95e5-8ff7156a5e30}" Title="PhoneNumbers.Portable.Test.WP8" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal"  Author="PhoneNumbers.Portable.Test.WP8 author" Description="Sample description" Publisher="PhoneNumbers.Portable.Test.WP8" PublisherID="{a3e93fcf-505e-49f5-9e05-234683a7fc82}">
+  <App xmlns="" ProductID="{25407933-28b1-4328-9f85-c268b6ddd371}" Title="PhoneNumbers.Portable.Test.WP8" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal"  Author="PhoneNumbers.Portable.Test.WP8 author" Description="Sample description" Publisher="PhoneNumbers.Portable.Test.WP8" PublisherID="{aefa5d3b-c768-48a5-ad92-c17a3bfb98ab}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING"/>

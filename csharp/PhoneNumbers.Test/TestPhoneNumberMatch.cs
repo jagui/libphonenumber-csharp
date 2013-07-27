@@ -17,14 +17,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+
+#if  WINDOWS_PHONE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif 
+#endif
 
 namespace PhoneNumbers.Test
 {
-    [TestFixture]
-    class TestPhoneNumberMatch
+    [TestClass]
+    public class TestPhoneNumberMatch
     {
-        [Test]
+        [TestMethod]
         public void TestValueTypeSemantics()
         {
             PhoneNumber number = new PhoneNumber();
@@ -43,7 +52,7 @@ namespace PhoneNumbers.Test
         /**
         * Tests the value type semantics for matches with a null number.
         */
-        [Test]
+        [TestMethod]
         public void TestIllegalArguments()
         {
             try

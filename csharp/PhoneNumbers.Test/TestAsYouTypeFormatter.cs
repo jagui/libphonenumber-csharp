@@ -17,7 +17,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+
+
+#if  WINDOWS_PHONE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif 
+#endif
 
 namespace PhoneNumbers.Test
 {
@@ -29,10 +39,16 @@ namespace PhoneNumbers.Test
     *
     * @author Shaopeng Jia
     */
-    [TestFixture]
-    class TestAsYouTypeFormatter: TestMetadataTestCase
+    [TestClass]
+    public class TestAsYouTypeFormatter : TestMetadataTestCase
     {
-        [Test]
+        [ClassInitialize]
+        public static void SetupFixture(TestContext context)
+        {
+            TestMetadataTestCase.SetupFixtureBase(context);
+        }
+
+        [TestMethod]
         public void TestInvalidRegion()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("ZZ");
@@ -56,7 +72,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("650253", formatter.InputDigit('3'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestInvalidPlusSign()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("ZZ");
@@ -75,7 +91,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("+48881231+2", formatter.InputDigit('2'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestTooLongNumberMatchingMultipleLeadingDigits()
         {
             // See http://code.google.com/p/libphonenumber/issues/detail?id=36
@@ -101,7 +117,7 @@ namespace PhoneNumbers.Test
         }
 
 
-        [Test]
+        [TestMethod]
         public void TestAYTFUS()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("US");
@@ -197,7 +213,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("+48 88 123 12 12", formatter.InputDigit('2'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFUSFullWidthCharacters()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("US");
@@ -213,7 +229,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("650 253 2222", formatter.InputDigit('\uFF12'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFUSMobileShortCode()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("US");
@@ -224,7 +240,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("*121#", formatter.InputDigit('#'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFUSVanityNumber()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("US");
@@ -242,7 +258,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("800 MY APPLE", formatter.InputDigit('E'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFAndRememberPositionUS()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("US");
@@ -380,7 +396,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual(3, formatter.GetRememberedPosition());
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFGBFixedLine()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("GB");
@@ -399,7 +415,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("020 7031 3000", formatter.InputDigit('0'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFGBTollFree()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("GB");
@@ -416,7 +432,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("080 7031 3000", formatter.InputDigit('0'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFGBPremiumRate()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("GB");
@@ -433,7 +449,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("090 7031 3000", formatter.InputDigit('0'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFNZMobile()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("NZ");
@@ -449,7 +465,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("02-112 3456", formatter.InputDigit('6'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFDE()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("DE");
@@ -502,7 +518,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("00 1 650 253 2222", formatter.InputDigit('2'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFAR()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("AR");
@@ -519,7 +535,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("011 7031-3000", formatter.InputDigit('0'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFARMobile()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("AR");
@@ -539,7 +555,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("+54 9 11 2312 1234", formatter.InputDigit('4'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFKR()
         {
             // +82 51 234 5678
@@ -631,7 +647,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("011-9876-7890", formatter.InputDigit('0'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTF_MX()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("MX");
@@ -718,7 +734,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("+52 1 541 234 5678", formatter.InputDigit('8'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTF_International_Toll_Free()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter(RegionCode.US);
@@ -738,7 +754,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("+800123456789", formatter.InputDigit('9'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFMultipleLeadingDigitPatterns()
         {
             // +81 50 2345 6789
@@ -797,7 +813,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("+81 3332 2 5678", formatter.InputDigit('8'));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAYTFLongIDD_AU()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("AU");
@@ -856,7 +872,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("0011 244 250 253 222", formatter.InputDigit('2'));
         }
 
-        [Test]
+        [TestMethod]
         public void testAYTFLongIDD_KR()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("KR");
@@ -879,7 +895,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("00300 1 650 253 2222", formatter.InputDigit('2'));
         }
 
-        [Test]
+        [TestMethod]
         public void testAYTFLongNDD_KR()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("KR");
@@ -917,7 +933,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual("08500 11-9876-7890", formatter.InputDigit('0'));
         }
 
-        [Test]
+        [TestMethod]
         public void testAYTFLongNDD_SG()
         {
             AsYouTypeFormatter formatter = phoneUtil.GetAsYouTypeFormatter("SG");

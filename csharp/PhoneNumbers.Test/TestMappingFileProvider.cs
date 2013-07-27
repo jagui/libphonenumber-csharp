@@ -15,10 +15,15 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using NUnit.Framework;
+#if  WINDOWS_PHONE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif 
+#endif
 
 namespace PhoneNumbers.Test
 {
@@ -27,13 +32,13 @@ namespace PhoneNumbers.Test
     *
     * @author Shaopeng Jia
     */
-    [TestFixture]
-    class TestMappingFileProvider
+    [TestClass]
+    public class TestMappingFileProvider
     {
-        private readonly MappingFileProvider mappingProvider = new MappingFileProvider();
+        private static readonly MappingFileProvider mappingProvider = new MappingFileProvider();
 
-        [TestFixtureSetUp]
-        public void SetupFixture()
+        [ClassInitialize]
+        public static void SetupFixture(TestContext context)
         {
             var mapping = new SortedDictionary<int, HashSet<String>>();
             mapping[1] = new HashSet<String>(new[] { "en" });
@@ -43,7 +48,7 @@ namespace PhoneNumbers.Test
             mappingProvider.ReadFileConfigs(mapping);
         }
 
-        [Test]
+        [TestMethod]
         public void TestGetFileName()
         {
             Assert.AreEqual("1_en", mappingProvider.GetFileName(1, "en", "", ""));
