@@ -20,7 +20,7 @@ using System.Text;
 
 namespace PhoneNumbers.Test
 {
-    class CountryCodeToRegionCodeMapForTesting
+    public class CountryCodeToRegionCodeMapForTesting
     {
         // A mapping from a country code to the region codes which denote the
         // country/region represented by that country code. In the case of multiple

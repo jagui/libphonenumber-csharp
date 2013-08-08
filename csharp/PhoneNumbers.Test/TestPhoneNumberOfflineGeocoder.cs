@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+#if  WINDOWS_PHONE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif 
+#endif
+
 
 namespace PhoneNumbers.Test
 {
@@ -27,10 +32,10 @@ namespace PhoneNumbers.Test
     *
     * @author Shaopeng Jia
     */
-    [TestFixture]
-    class TestPhoneNumberOfflineGeocoder
+    [TestClass]
+    public class TestPhoneNumberOfflineGeocoder
     {
-        private PhoneNumberOfflineGeocoder geocoder;
+        private static PhoneNumberOfflineGeocoder geocoder;
         const String TEST_MAPPING_DATA_DIRECTORY = "res.test_";
 
         // Set up some test numbers to re-use.
@@ -61,21 +66,21 @@ namespace PhoneNumbers.Test
         private static readonly PhoneNumber INTERNATIONAL_TOLL_FREE =
             new PhoneNumber.Builder().SetCountryCode(800).SetNationalNumber(12345678L).Build();
 
-        [TestFixtureSetUp]
-        public void SetupFixture()
+        [ClassInitialize]
+        public static void SetupFixture(TestContext context)
         {
             PhoneNumberUtil.ResetInstance();
             geocoder = new PhoneNumberOfflineGeocoder(TEST_MAPPING_DATA_DIRECTORY);
         }
 
-        [Test]
+        [TestMethod]
         public void testInstantiationWithRegularData()
         {
             PhoneNumberUtil.ResetInstance();
             geocoder = PhoneNumberOfflineGeocoder.GetInstance();
         }
 
-        [Test]
+        [TestMethod]
         public void testGetDescriptionForNumberWithNoDataFile()
         {
             // No data file containing mappings for US numbers is available in Chinese for the unittests. As
@@ -92,7 +97,7 @@ namespace PhoneNumbers.Test
                                                             new Locale("en", "US")));
         }
 
-        [Test]
+        [TestMethod]
         public void testGetDescriptionForNumberWithMissingPrefix()
         {
             // Test that the name of the country is returned when the number passed in is valid but not
@@ -101,7 +106,7 @@ namespace PhoneNumbers.Test
                 geocoder.GetDescriptionForNumber(US_NUMBER4, new Locale("en", "US")));
         }
 
-        [Test]
+        [TestMethod]
         public void testGetDescriptionForNumber_en_US()
         {
             Assert.AreEqual("CA",
@@ -112,7 +117,7 @@ namespace PhoneNumbers.Test
                 geocoder.GetDescriptionForNumber(US_NUMBER3, new Locale("en", "US")));
         }
 
-        [Test]
+        [TestMethod]
         public void testGetDescriptionForKoreanNumber()
         {
             Assert.AreEqual("Seoul",
@@ -127,7 +132,7 @@ namespace PhoneNumbers.Test
                 geocoder.GetDescriptionForNumber(KO_NUMBER2, Locale.KOREAN));
         }
 
-        [Test]
+        [TestMethod]
         public void TestGetDescriptionForFallBack()
         {
             // No fallback, as the location name for the given phone number is available in the requested
@@ -145,7 +150,7 @@ namespace PhoneNumbers.Test
                 geocoder.GetDescriptionForNumber(KO_NUMBER3, Locale.KOREAN));
         }
 
-        [Test]
+        [TestMethod]
         public void TestGetDescriptionForNumberWithUserRegion()
         {
             // User in Italy, American number. We should just show United States, in Spanish, and not more
@@ -167,7 +172,7 @@ namespace PhoneNumbers.Test
                 "US"));
         }
 
-        [Test]
+        [TestMethod]
         public void TestGetDescritionForInvaildNumber()
         {
             Assert.AreEqual("", geocoder.GetDescriptionForNumber(KO_INVALID_NUMBER, Locale.ENGLISH));

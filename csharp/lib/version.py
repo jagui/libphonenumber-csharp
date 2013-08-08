@@ -1,5 +1,8 @@
 # Update assembly version number based on Java pom.xml file
-import os, sys, re, subprocess
+import os
+import sys
+import re
+import subprocess
 
 def haschanges(rootdir):
     p = subprocess.Popen(['hg', '-R', rootdir, 'id', '-n'],
@@ -37,7 +40,8 @@ def getjavaver(rootdir):
         prevver = ver
         rev = 'p1(%s)' % rev
 
-asmfile = 'csharp/PhoneNumbers/Properties/AssemblyInfo.cs'
+asmfile = 'csharp/GlobalAssemblyInfo.cs'
+nuspecfile = 'csharp/PhoneNumbers.nuspec'
 
 def getcsharpprevbuild(rootdir):
     stdout = hgcat(rootdir, asmfile, '.')
@@ -60,15 +64,31 @@ def updatecsharpver(rootdir, ver):
         print 'Updating to', ver
         file(asmpath, 'wb').write(rewritten)
 
+def updatenuspecver(rootdir, ver):
+    nuspecpath = os.path.join(rootdir, nuspecfile)
+    data = file(nuspecpath, 'rb').read()
+    ver = (ver + (0, 0, 0, 0))[:4]
+    ver = '.'.join(str(p) for p in ver)
+    
+    rewritten, n = re.subn(r'\<version\>.*\<\/version\>', 
+                           '<version>' + ver + '</version>', data)
+    if not n:
+        raise Exception('cannot extract version from PhoneNumbers.nuspec')
+    if rewritten != data:
+        print 'Updating to', ver
+        file(nuspecpath, 'wb').write(rewritten)
+
+
 if __name__ == '__main__':
     rootdir = os.path.join(os.path.dirname(__file__), '../..')
     if haschanges(rootdir):
         # Version number is only updates when merging and building
-        # locally. Do not update it when building against a clean
+        # locally.  Do not update it when building against a clean
         # existing revision.
         ver = getjavaver(rootdir)
         build = getcsharpprevbuild(rootdir)
         ver = ver[:2] + (0, build + 1)
         updatecsharpver(rootdir, ver)
+        updatenuspecver(rootdir, ver)
     
     

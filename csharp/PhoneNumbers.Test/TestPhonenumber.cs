@@ -17,14 +17,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+#if  WINDOWS_PHONE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif 
+#endif
+
 
 namespace PhoneNumbers.Test
 {
-    [TestFixture]
-    class TestPhonenumber
+    [TestClass]
+    public class TestPhonenumber
     {
-        [Test]
+        [TestMethod]
         public void TestEqualSimpleNumber()
         {
             PhoneNumber numberA = new PhoneNumber.Builder()
@@ -37,7 +46,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual(numberA.GetHashCode(), numberB.GetHashCode());
         }
 
-        [Test]
+        [TestMethod]
         public void TestEqualWithItalianLeadingZeroSetToDefault()
         {
             PhoneNumber numberA = new PhoneNumber.Builder()
@@ -51,7 +60,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual(numberA.GetHashCode(), numberB.GetHashCode());
         }
 
-        [Test]
+        [TestMethod]
         public void TestEqualWithCountryCodeSourceSet()
         {
             PhoneNumber numberA = new PhoneNumber.Builder()
@@ -64,7 +73,7 @@ namespace PhoneNumbers.Test
             Assert.AreEqual(numberA.GetHashCode(), numberB.GetHashCode());
         }
 
-        [Test]
+        [TestMethod]
         public void TestNonEqualWithItalianLeadingZeroSetToTrue()
         {
             PhoneNumber numberA = new PhoneNumber.Builder()
@@ -77,7 +86,7 @@ namespace PhoneNumbers.Test
             Assert.IsFalse(numberA.GetHashCode() == numberB.GetHashCode());
         }
 
-        [Test]
+        [TestMethod]
         public void TestNonEqualWithDifferingRawInput()
         {
             PhoneNumber numberA = new PhoneNumber.Builder()
@@ -94,7 +103,7 @@ namespace PhoneNumbers.Test
             Assert.IsFalse(numberA.GetHashCode() == numberB.GetHashCode());
         }
 
-        [Test]
+        [TestMethod]
         public void TestNonEqualWithPreferredDomesticCarrierCodeSetToDefault()
         {
             PhoneNumber numberA = new PhoneNumber.Builder()
@@ -107,7 +116,7 @@ namespace PhoneNumbers.Test
             Assert.IsFalse(numberA.GetHashCode() == numberB.GetHashCode());
         }
 
-        [Test]
+        [TestMethod]
         public void TestEqualWithPreferredDomesticCarrierCodeSetToDefault()
         {
             PhoneNumber numberA = new PhoneNumber.Builder()
