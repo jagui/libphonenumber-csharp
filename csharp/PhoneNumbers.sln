@@ -13,6 +13,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneNumbers.Portable.Test.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneNumbers.Portable.Test.WindowsStoreApps", "PhoneNumbers.Portable.Test.WindowsStoreApps\PhoneNumbers.Portable.Test.WindowsStoreApps.csproj", "{83CF8C6F-CF3F-4739-9102-0F0DD9EA4A2C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7314C92F-73AB-40F1-BC30-D65C2E5D92E3}"
+	ProjectSection(SolutionItems) = preProject
+		PhoneNumbers.nuspec = PhoneNumbers.nuspec
+		lib\publish.py = lib\publish.py
+		lib\version.py = lib\version.py
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
