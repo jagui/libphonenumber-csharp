@@ -60,9 +60,6 @@
     <Compile Include="..\PhoneNumbers\FlyweightMapStorage.cs">
       <Link>FlyweightMapStorage.cs</Link>
     </Compile>
-    <Compile Include="..\PhoneNumbers\LocaleData.cs">
-      <Link>LocaleData.cs</Link>
-    </Compile>
     <Compile Include="..\PhoneNumbers\MappingFileProvider.cs">
       <Link>MappingFileProvider.cs</Link>
     </Compile>
@@ -108,6 +105,7 @@
     <Compile Include="..\PhoneNumbers\XElementExtensions.cs">
       <Link>XElementExtensions.cs</Link>
     </Compile>
+    <Compile Include="Locale.cs" />
     <Compile Include="Redirections.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -570,6 +568,9 @@
     <EmbeddedResource Include="..\PhoneNumbers\PhoneNumberMetaDataForTesting.xml">
       <Link>PhoneNumberMetaDataForTesting.xml</Link>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="res\localedata" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

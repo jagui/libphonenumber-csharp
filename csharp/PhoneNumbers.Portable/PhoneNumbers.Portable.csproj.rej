@@ -1,0 +1,11 @@
+--- csharp/PhoneNumbers.Portable/PhoneNumbers.Portable.csproj	
++++ csharp/PhoneNumbers.Portable/PhoneNumbers.Portable.csproj	
+@@ -2,7 +2,7 @@
+ <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+   <PropertyGroup>
+-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
++    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+     <ProjectGuid>{D57B1BF5-809A-44F9-9FF7-F573BCF2BBFD}</ProjectGuid>
